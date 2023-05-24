@@ -19,6 +19,11 @@ int main(void) {
   int longitud = slist_longitud(lista);
   printf("La lista tiene %d elementos\n", longitud);
 
+  printf(" · Elimino un elemento\n");
+  lista = slist_eliminar(lista, 4);
+  slist_recorrer(lista, imprimir_entero);
+  puts("");
+
   // Una vez concatenadas las listas, si modifico esta tambien cambia la primera
   SList lista2 = slist_crear();             // no necesita free ya que es parte de lista
   lista2 = slist_agregar_inicio(lista2, 5);
