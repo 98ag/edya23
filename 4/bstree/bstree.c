@@ -230,6 +230,28 @@ int bstree_validar(BSTree arbol, FuncionComparadora comp, FuncionVisitanteExtra 
   */
 }
 
+/*
+  Validar 2:
+    *Lleva un puntero donde guarda un puntero a arbol (para el anterior)
+
+  Siendo: TRUE = 1
+          FALSE = 0
+
+  - SI arbol vacio RETORNA TRUE
+
+  - checkIzq = validar(arbol->izq)
+
+  - SI (anterior distinto de NULL) yy (*ANTERIOR > ARBOL)
+      RETORNA FALSE
+  - anterior = arbol
+
+  - checkDer = validar(arbol->der)
+
+  - SI (izq = TRUE) y (der = TRUE)
+      RETURNA TRUE
+    DE LO CONTRARIO
+      RETORNA FALSE
+*/
 int bst_validar_2(BSTree arbol, FuncionComparadora comp) {
   BSTree anterior = NULL;
   return bst_validar_r(arbol, &anterior, comp);
