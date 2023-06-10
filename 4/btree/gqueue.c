@@ -24,6 +24,22 @@ GQueue cola_encolar(GQueue cola, void *dato, FuncionCopia copia) {
   return cglist_agregar_inicio(cola, dato, copia);
 }
 
+GQueue cola_encolar_nodo(GQueue cola, void *ptr) {
+  CGNode *newNode = malloc(sizeof(CGNode));
+
+  if (cola != NULL) {
+    newNode->prev = cola->prev;
+    cola->prev = newNode;
+    newNode->next = cola;
+    newNode->prev->next = newNode;
+  } else {
+    newNode->prev = newNode->next = newNode;
+  }
+
+  newNode->data = ptr;
+  return newNode;
+}
+
 GQueue cola_desencolar(GQueue cola, FuncionDestructora destruir) {
   if (cola != NULL && cola->prev != NULL) {
     CGNode *aux = cola->prev;
@@ -36,6 +52,29 @@ GQueue cola_desencolar(GQueue cola, FuncionDestructora destruir) {
     destruir(cola->data);
   }
   return NULL;
+}
+
+GQueue cola_desencolar_nodo(GQueue cola) {
+  if (cola == NULL)
+    return NULL;
+
+  if (cola != NULL && cola->prev == cola) {
+    free(cola);
+    return NULL;
+  }
+
+  CGNode *aux = cola->prev;
+  cola->prev = cola->prev->prev;
+  cola->prev->next = cola;
+  free(aux);
+  return cola;
+}
+
+void *cola_inicio_nodo(GQueue cola) {
+  if (cola == NULL)
+    return NULL;
+
+  return cola->prev->data;
 }
 
 void cola_imprimir(GQueue cola, FuncionVisitante visitar) {
