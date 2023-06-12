@@ -83,7 +83,7 @@ void bstree_recorrer(BSTree raiz, BSTreeRecorrido orden,
       visita(raiz->dato, extra);
   }
 }
-
+/*
 BSTree bstree_sucesor_inorder(BSTree arbol) {
 
   while (arbol->izq != NULL)
@@ -91,6 +91,7 @@ BSTree bstree_sucesor_inorder(BSTree arbol) {
 
   return arbol;
 }
+*/
 
 BSTree bstree_padre_sucesor_inorder(BSTree arbol) {
 
@@ -100,19 +101,20 @@ BSTree bstree_padre_sucesor_inorder(BSTree arbol) {
   return arbol;
 }
 
-BSTree bstree_eliminar(BSTree arbol, void *dato, FuncionComparadora comp, FuncionDestructora destroy) { //, FuncionCopiadora copy
+BSTree bstree_eliminar(BSTree arbol, void *dato, FuncionComparadora comp,
+                       FuncionDestructora destroy) {
   if (arbol == NULL)
     return NULL;
 
-  int compres = comp(dato, arbol->dato);
+  int resultadoComparacion = comp(dato, arbol->dato);
 
-  if (compres > 0)
+  if (resultadoComparacion > 0)
     arbol->der = bstree_eliminar(arbol->der, dato, comp, destroy);
 
-  if (compres < 0)
+  if (resultadoComparacion < 0)
     arbol->izq = bstree_eliminar(arbol->izq, dato, comp, destroy);
 
-  if (compres == 0) {
+  if (resultadoComparacion == 0) {
     if (arbol->izq == NULL && arbol->der == NULL) {
       destroy(arbol->dato);
       free(arbol);
@@ -120,13 +122,6 @@ BSTree bstree_eliminar(BSTree arbol, void *dato, FuncionComparadora comp, Funcio
     }
 
     else if (arbol->izq != NULL && arbol->der != NULL) {
-      /*
-      BSTree sucesor = bstree_sucesor_inorder(arbol->der);
-      destroy(arbol->dato);
-      arbol->dato = copy(sucesor->dato);
-      bstree_eliminar(arbol->der, sucesor->dato, comp, destroy, copy);
-      return arbol;
-      */
       BSTree padreSucesor = bstree_padre_sucesor_inorder(arbol->der);
       BSTree sucesor = padreSucesor->izq;
 
